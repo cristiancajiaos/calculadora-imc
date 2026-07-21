@@ -1,4 +1,4 @@
-import { Component, signal, ViewChild } from '@angular/core';
+import { Component, computed, Signal, signal, ViewChild, WritableSignal } from '@angular/core';
 
 import { MatSliderModule, MatSliderThumb } from '@angular/material/slider';
 import { MatCardModule } from '@angular/material/card';
@@ -16,26 +16,29 @@ export class Calculator {
 
   /* Altura */
   @ViewChild(MatSliderThumb) sliderHeight!: MatSliderThumb;
-  maxHeight = signal(250);
-  minHeight = signal(100);
-  defaultHeight = signal(170);
-  inputHeight = this.defaultHeight();
+  maxHeight: WritableSignal<number> = signal(250);
+  minHeight: WritableSignal<number> = signal(100);
+  defaultHeight: WritableSignal<number> = signal(170);
+  inputHeight: number = this.defaultHeight();
 
   /* Peso */
   @ViewChild(MatSliderThumb) sliderWeight!: MatSliderThumb;
-  maxWeight = signal(200);
-  minWeight = signal(0);
-  defaultWeight = signal(80);
-  inputWeight = this.defaultWeight();
+  maxWeight: WritableSignal<number> = signal(200);
+  minWeight: WritableSignal<number> = signal(0);
+  defaultWeight: WritableSignal<number> = signal(80);
+  inputWeight: number = this.defaultWeight();
 
   /* Ambos */
-  showTickMarks = signal(true);
+  showTickMarks: WritableSignal<boolean> = signal(true);
 
   /* Para el cálculo */
   calculated = signal(false);
+  imc = signal(this.inputWeight / Math.pow((this.inputHeight / 100), 2));
+  imcStr: Signal<string> = computed(() => this.imc().toFixed(2));
 
   public calculateIMC(): void {
     this.calculated.set(true);
+    this.imc.set(this.inputWeight / Math.pow((this.inputHeight / 100), 2));
   }
 
   public resetDefault(): void {
