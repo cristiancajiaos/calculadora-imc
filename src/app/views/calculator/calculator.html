@@ -2,37 +2,40 @@
   <mat-card class="mat-card">
     <mat-card-header>
       <mat-card-title>Altura</mat-card-title>
-      <mat-card-subtitle>{{sliderHeight.value}} [cm]
-
-      </mat-card-subtitle>
+      <mat-card-subtitle>{{ sliderHeight.value }} [cm] </mat-card-subtitle>
     </mat-card-header>
     <mat-card-content>
-      <mat-slider [max]="maxHeight()"
+      <mat-slider
+        [max]="maxHeight()"
         [min]="minHeight()"
         [showTickMarks]="showTickMarks()">
-        <input matSliderThumb [value]="defaultHeight()" #sliderHeight/>
+        <input matSliderThumb [value]="defaultHeight()" [(ngModel)]="inputHeight" #sliderHeight />
       </mat-slider>
     </mat-card-content>
   </mat-card>
   <mat-card class="mat-card">
     <mat-card-header>
       <mat-card-title>Peso</mat-card-title>
-      <mat-card-subtitle>{{sliderWeight.value}} [Kg]
-
-      </mat-card-subtitle>
+      <mat-card-subtitle>{{ sliderWeight.value }} [Kg] </mat-card-subtitle>
     </mat-card-header>
     <mat-card-content>
       <mat-slider
-        [max]="maxWeight()"
-        [min]="minWeight()"
-        [showTickMarks]="showTickMarks()">
-        <input matSliderThumb [value]="defaultWeight()" #sliderWeight/>
+      [max]="maxWeight()"
+      [min]="minWeight()"
+      [showTickMarks]="showTickMarks()">
+        <input matSliderThumb [value]="defaultWeight()" [(ngModel)]="inputWeight" #sliderWeight />
       </mat-slider>
     </mat-card-content>
   </mat-card>
-  <button matButton="elevated">
-    Calcular IMC
-  </button>
-  
+  <div class="control-buttons">
+    <button class="btn-calculate" matButton="elevated" (click)="calculateIMC()">
+      Calcular IMC
+    </button>
+    <button color="red" matButton="elevated" (click)="resetDefault()">
+      Resetear valores
+    </button>
+  </div>
+  @if (calculated()) {
+    <mat-divider></mat-divider>
+  }
 </section>
-
